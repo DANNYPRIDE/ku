@@ -1,0 +1,16 @@
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  application:
+    name: ku
+  datasource:
+    driver-class-name:
+    url: jdbc:mysql://localhost:3309
+    username:
+    password:
+
+  server:
+    port: 8080
+
