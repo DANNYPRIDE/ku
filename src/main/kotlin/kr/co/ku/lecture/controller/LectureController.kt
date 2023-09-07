@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class LectureController(private val service: LectureService) {
-    @PostMapping
+    @PostMapping("lecture")
     fun createLecture(request: LectureCreateRequest) {
         service.createLecture(request)
     }

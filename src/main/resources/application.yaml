@@ -1,16 +1,23 @@
 
 spring:
+  server:
+    port: 8080
+  application:
+    name: ku
   jpa:
     hibernate:
       ddl-auto: create
-  application:
-    name: ku
-  datasource:
-    driver-class-name:
-    url: jdbc:mysql://localhost:3309
-    username:
-    password:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
-  server:
-    port: 8080
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://34.22.92.14:3306/ku
+    username: test
+    password: test
+    hikari:
+      maximum-pool-size: 20
+
 
