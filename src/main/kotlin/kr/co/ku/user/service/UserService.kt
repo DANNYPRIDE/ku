@@ -20,17 +20,16 @@ class UserService(private val studentRepository: StudentRepository, private val 
                     name = request.name
                 )
             )
-        } else
-            {
-                studentRepository.save(
-                    Student(
-                        id = null,
-                        email = request.email,
-                        password = request.password,
-                        name = request.name
-                    )
+        } else {
+            studentRepository.save(
+                Student(
+                    id = null,
+                    email = request.email,
+                    password = request.password,
+                    name = request.name
                 )
-            }
+            )
+        }
     }
 
     fun login(request: LoginRequest) {
