@@ -19,7 +19,7 @@ class LectureService(
     private val postRepository: PostRepository
 ) {
     fun createLecture(request: LectureCreateRequest) {
-        val teacher = teacherRepository.findById(request.teacherId)
+        val teacher = teacherRepository.findById(request.teacherId).orElseThrow()
         val lecture = repository.save(Lecture(id = null, name = request.name, teacher = teacher))
     }
 

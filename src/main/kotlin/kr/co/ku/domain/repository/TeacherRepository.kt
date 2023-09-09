@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.Query
 interface TeacherRepository : JpaRepository<Teacher, Long> {
     @Query("SELECT t FROM Teacher t LEFT JOIN FETCH t.lectures WHERE t.id = ?1")
     fun findWithLecturesById(id: Long): Teacher
+
+    fun findByEmail(email: String): Teacher?
 }

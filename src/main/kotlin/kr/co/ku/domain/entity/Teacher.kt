@@ -7,7 +7,7 @@ class Teacher(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
-    @Column
+    @Column(unique = true)
     var email: String,
     @Column
     var password: String,
