@@ -18,7 +18,7 @@ class Session(
     val expiresAt: LocalDateTime
 ) {
     companion object {
-        fun createSession(role: String): Session  {
+        fun createSession(role: String): Session {
             return Session(
                 id = UUID.randomUUID().toString(),
                 role = role,

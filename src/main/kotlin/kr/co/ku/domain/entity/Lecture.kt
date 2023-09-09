@@ -1,5 +1,6 @@
 package kr.co.ku.domain.entity
 
+import kr.co.ku.domain.entity.dto.LectureResult
 import javax.persistence.*
 
 @Entity
@@ -15,4 +16,11 @@ class Lecture(
     var students: MutableList<Student> = mutableListOf(),
     @OneToMany(mappedBy = "lecture", cascade = [CascadeType.ALL])
     var posts: MutableList<Post> = mutableListOf()
-)
+) {
+    fun toResult() =
+        LectureResult(
+            this.id ?: 0,
+            this.name,
+            this.teacher?.name ?: ""
+        )
+}

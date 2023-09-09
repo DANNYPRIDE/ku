@@ -1,5 +1,6 @@
 package kr.co.ku.domain.entity
 
+import kr.co.ku.domain.entity.dto.PostResult
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -7,7 +8,7 @@ import javax.persistence.*
 class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long,
+    var id: Long?,
     @Column
     var title: String,
     @Column
@@ -20,4 +21,14 @@ class Post(
     var updatedAt: LocalDateTime,
     @ManyToOne
     var lecture: Lecture
-)
+) {
+    fun toResult() =
+        PostResult(
+            this.id ?: 0,
+            this.title,
+            this.text,
+            this.teacher.name,
+            this.createdAt,
+            this.updatedAt
+        )
+}

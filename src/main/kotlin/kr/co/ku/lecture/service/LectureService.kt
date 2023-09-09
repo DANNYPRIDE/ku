@@ -1,12 +1,11 @@
 package kr.co.ku.lecture.service
 
 import kr.co.ku.domain.entity.Lecture
-import kr.co.ku.domain.entity.Post
+import kr.co.ku.domain.entity.dto.LectureResult
 import kr.co.ku.domain.repository.LectureRepository
 import kr.co.ku.domain.repository.PostRepository
 import kr.co.ku.domain.repository.StudentRepository
 import kr.co.ku.domain.repository.TeacherRepository
-import kr.co.ku.lecture.controller.dto.request.LectureCreateRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,23 +17,34 @@ class LectureService(
     private val studentRepository: StudentRepository,
     private val postRepository: PostRepository
 ) {
-    fun createLecture(request: LectureCreateRequest) {
-        val teacher = teacherRepository.findById(request.teacherId).orElseThrow()
-        val lecture = repository.save(Lecture(id = null, name = request.name, teacher = teacher))
+    fun findAll(): List<LectureResult> {
+        return repository.findAll().map { it.toResult() }
     }
 
     @Transactional(readOnly = true)
-    fun findPosts(id: Long): List<Post> {
-        return repository.findWithPostsById(id).posts?.toList()
+    fun findStudentWithLectures(id: Long): List<LectureResult> {
+        return repository.findAllWithStudent().map { it.toResult() }
     }
 
     @Transactional(readOnly = true)
-    fun findStudentWithLectures(id: Long): List<Lecture> {
-        return studentRepository.findWithLecturesById(id).lectures?.toList() ?: emptyList()
+    fun findTeacherWithLectures(id: Long): List<LectureResult> {
+        return repository.findAllWithTeacher().map { it.toResult() }
     }
 
-    @Transactional(readOnly = true)
-    fun findTeacherWithLectures(id: Long): List<Lecture> {
-        return teacherRepository.findWithLecturesById(id).lectures?.toList() ?: emptyList()
+    fun createLecture(
+        teacherId: Long,
+        lectureName: String
+    ) {
+        val teacher = teacherRepository.findById(teacherId).orElseThrow()
+        val lecture = repository.save(Lecture(id = null, name = lectureName, teacher = teacher))
+    }
+
+    fun enrollLecture(
+        studentId: Long,
+        lectureId: Long
+    ) {
+        val student = studentRepository.findById(studentId).orElseThrow()
+        val lecture = repository.findById(lectureId).orElseThrow()
+        student.lectures?.add(lecture)
     }
 }
