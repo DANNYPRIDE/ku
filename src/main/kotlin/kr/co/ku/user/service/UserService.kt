@@ -46,18 +46,29 @@ class UserService(
 
     @Transactional
     fun login(request: LoginRequest): Session {
-        val encryptedPassword = findEncryptedPasswordByEmail(request)
+        val (encryptedPassword, userId) = findEncryptedPasswordAndUserIddByEmail(request)
+
         require(bcryptEncoder.matches(request.password, encryptedPassword)) {
             throw RuntimeException("")
         }
-        return sessionRepository.save(createSession(role = if (request.isTeacher) TEACHER else STUDENT))
+        return sessionRepository.save(
+            createSession(
+                role = if (request.isTeacher) TEACHER else STUDENT,
+                userId = userId
+            )
+        )
     }
 
-    private fun findEncryptedPasswordByEmail(request: LoginRequest): String {
+    /**
+     * response: Pair <encryptedPassword, userId>
+     */
+    private fun findEncryptedPasswordAndUserIddByEmail(request: LoginRequest): Pair<String, Long> {
         return if (request.isTeacher) {
-            teacherRepository.findByEmail(request.email)?.password
+            val teacher = teacherRepository.findByEmail(request.email)
+            Pair(teacher?.password!!, teacher.id!!)
         } else {
-            studentRepository.findByEmail(request.email)?.password
-        } ?: throw RuntimeException("")
+            val student = studentRepository.findByEmail(request.email)
+            Pair(student?.password!!, student.id!!)
+        }
     }
 }

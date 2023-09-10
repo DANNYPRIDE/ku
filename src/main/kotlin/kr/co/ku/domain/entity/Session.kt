@@ -15,15 +15,21 @@ class Session(
     @Column
     val createdAt: LocalDateTime,
     @Column
-    val expiresAt: LocalDateTime
+    val expiresAt: LocalDateTime,
+    @Column
+    val userId: Long
 ) {
     companion object {
-        fun createSession(role: String): Session {
+        fun createSession(
+            role: String,
+            userId: Long
+        ): Session {
             return Session(
                 id = UUID.randomUUID().toString(),
                 role = role,
                 createdAt = LocalDateTime.now(),
-                expiresAt = LocalDateTime.now().plusHours(12)
+                expiresAt = LocalDateTime.now().plusHours(12),
+                userId = userId
             )
         }
     }
