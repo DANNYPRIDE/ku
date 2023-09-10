@@ -8,6 +8,7 @@ import kr.co.ku.post.service.PostService
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@CrossOrigin
 class PostController(private val service: PostService) {
     @GetMapping("/api/v1/post")
     fun getPosts(

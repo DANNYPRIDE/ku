@@ -15,7 +15,6 @@ class LectureService(
     private val repository: LectureRepository,
     private val teacherRepository: TeacherRepository,
     private val studentRepository: StudentRepository,
-    private val postRepository: PostRepository
 ) {
     fun findAll(): List<LectureResult> {
         return repository.findAll().map { it.toResult() }
@@ -23,12 +22,12 @@ class LectureService(
 
     @Transactional(readOnly = true)
     fun findStudentWithLectures(id: Long): List<LectureResult> {
-        return repository.findAllWithStudent().map { it.toResult() }
+        return repository.findAllWithStudent(id).map { it.toResult() }
     }
 
     @Transactional(readOnly = true)
     fun findTeacherWithLectures(id: Long): List<LectureResult> {
-        return repository.findAllWithTeacher().map { it.toResult() }
+        return repository.findAllWithTeacher(id).map { it.toResult() }
     }
 
     fun createLecture(

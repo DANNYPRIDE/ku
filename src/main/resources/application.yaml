@@ -20,4 +20,3 @@ spring:
     password: test
     hikari:
       maximum-pool-size: 20
-

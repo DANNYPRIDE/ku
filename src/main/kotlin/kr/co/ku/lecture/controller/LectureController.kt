@@ -10,6 +10,7 @@ import kr.co.ku.lecture.service.LectureService
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@CrossOrigin
 class LectureController(private val service: LectureService) {
     @GetMapping("v1/lectures/all")
     fun getLecturesAll(): List<LectureResult> {
